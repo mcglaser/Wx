@@ -2,7 +2,11 @@ class Wx::CLI
 
 
   def call
-    puts "helloooo"
+    greeting
+  end
+
+  def greeting
+    puts "What's The Weather Like Today? Enter Your City Or Zip Code"
   end
 
 

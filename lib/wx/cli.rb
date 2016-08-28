@@ -11,6 +11,7 @@ class Wx::CLI
     greeting
     detailed_weather
     get_weather
+    goodbye
   end
 
   def greeting
@@ -52,6 +53,10 @@ class Wx::CLI
     print "\n"
 
     end
+  end
+
+  def goodbye
+    puts "Thanks For Checking The Weather. Have A Wonderful Day!"
   end
 
 

@@ -7,6 +7,7 @@ class Wx::CLI
 
 
   def call
+    Wx::Weather.test
     greeting
     detailed_weather
     get_weather
@@ -33,7 +34,7 @@ class Wx::CLI
       puts "We Did Not Recognize The City You Entered. Please Enter Your City Or Zip Code Again:"
       @location = nil
       @location = gets
-      get_weather
+      get_weather 
     else
     
     document.css("simpleforecast forecastday").each_with_index do |forecastday, i|

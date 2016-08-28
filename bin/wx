@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "./lib/wx"
+
+Wx::CLI.new.call

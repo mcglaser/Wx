@@ -13,7 +13,7 @@ class Wx::CLI
   end
 
   def greeting
-    puts "Looking For Some Weather Info? Enter Your City Or Zip Code"
+    puts "Looking For Some Weather Info? Enter Your City Or Zip Code:"
     @location = nil
     @location = gets
   end
@@ -28,6 +28,13 @@ class Wx::CLI
     document  = Nokogiri::XML(open(url))
     
     forecast = document.css('fcttext')
+
+    if document.css("simpleforecast forecastday").empty?
+      puts "We Did Not Recognize The City You Entered. Please Enter Your City Or Zip Code Again:"
+      @location = nil
+      @location = gets
+      get_weather
+    else
     
     document.css("simpleforecast forecastday").each_with_index do |forecastday, i|
       highs = forecastday.css('high')
@@ -42,6 +49,8 @@ class Wx::CLI
     end
     
     print "\n"
+
+    end
   end
 
 

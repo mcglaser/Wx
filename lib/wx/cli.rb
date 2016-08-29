@@ -7,10 +7,10 @@ class Wx::CLI
 
 
   def call
+    #greeting
     Wx::Weather.test
-    greeting
-    detailed_weather
-    get_weather
+    #detailed_weather
+    #get_weather
     goodbye
   end
 

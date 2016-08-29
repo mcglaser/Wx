@@ -9,7 +9,6 @@ class Wx::CLI
   def call
     #greeting
     Wx::Weather.test
-    #detailed_weather
     #get_weather
     goodbye
   end
@@ -20,8 +19,8 @@ class Wx::CLI
     @location = gets
   end
 
-  def detailed_weather
-    puts @location
+  def learn_location
+    @location = Wx::Weather.location
   end
 
 

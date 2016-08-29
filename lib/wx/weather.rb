@@ -5,16 +5,16 @@ require 'cgi'
 
 class Wx::Weather
 
-# attr_accessor :name, :price, :availability, :url
+ attr_accessor :location
   
   def self.test
    self.greeting
-   if self.invalid_city?
-        puts "INVALID!!!!!!!!"
-      else
-        puts "valid dude!!!!!!"
-    end
-   self.get_weather
+ #  if self.invalid_city?
+ #       puts "INVALID!!!!!!!!"
+ #     else
+ #       puts "valid dude!!!!!!"
+  #  end
+  # self.get_weather
   end
 
 
@@ -22,6 +22,10 @@ class Wx::Weather
       puts "Looking For Some Weather Info? Enter Your City Or Zip Code:"
       @location = nil
       @location = gets
+    end
+
+    def self.location
+      @location
     end
 
   def self.today

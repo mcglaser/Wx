@@ -116,10 +116,9 @@ class Wx::Weather
     @input = gets.strip.downcase
     puts
 
-    if self.input_valid?
-      puts "valid"
-    else
-      puts "that's funky"
+    if !self.input_valid?
+      puts "Invalid Choice."
+      self.select_day
     end
   end
 

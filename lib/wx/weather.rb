@@ -10,6 +10,7 @@ class Wx::Weather
   def self.test
    self.greeting
    self.scrape_api
+   self.select_day
   #self.get_weather
   end
 
@@ -18,6 +19,7 @@ class Wx::Weather
       puts "Looking For Some Weather Info? Enter Your City Or Zip Code:"
       @location = nil
       @location = gets
+      puts
     end
 
     def self.location
@@ -79,36 +81,33 @@ class Wx::Weather
 
 
 
-  def self.scrape_data
-    data = []
-
-    data << self.scrape_api
-
-    data
-  end
-
   def self.scrape_api
     url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{@location}"
     document  = Nokogiri::XML(open(url))
     
-    days = []
-    highs = []
-    lows = []
-    forecasts = []
+    @days = []
+    @highs = []
+    @lows = []
+    @forecasts = []
 
     document.css("simpleforecast forecastday").each_with_index do |forecastday|
-      days << forecastday.css("date weekday").first.content
-      highs << forecastday.css('high')
-      lows << forecastday.css('low')
-      forecasts << forecastday.css('fcttext')
+      @days << forecastday.css("date weekday").first.content
+      @highs << forecastday.css('high')
+      @lows << forecastday.css('low')
+      @forecasts << forecastday.css('fcttext')
     end
 
     document.css('fcttext').each do |forecast|
-      forecasts << forecast
+      @forecasts << forecast
     end
+  end
 
+  def self.select_day
+    puts "Enter The Number For The Day You Want Weather Info For. Type ALL For A Weekly Forecast."
 
-    puts forecasts
+    @days.each do |day|
+      puts day
+    end
   end
 
 

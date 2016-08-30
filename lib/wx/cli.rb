@@ -7,10 +7,8 @@ class Wx::CLI
 
 
   def call
-    #greeting
     Wx::Weather.test
     learn_location
-    #get_weather
     goodbye
   end
 

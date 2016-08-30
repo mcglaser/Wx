@@ -113,9 +113,27 @@ class Wx::Weather
     end
 
     @input = nil
-    @input = gets
+    @input = gets.strip.downcase
     puts
+
+    if self.input_valid?
+      puts "valid"
+    else
+      puts "that's funky"
+    end
   end
+
+  def self.input_valid?
+    if (1..6).cover?(@input.to_i)
+      true
+      elsif
+      @input == "all"
+      true
+    else 
+      false
+    end
+  end
+
 
 
 

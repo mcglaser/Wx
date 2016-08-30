@@ -5,16 +5,12 @@ require 'cgi'
 
 class Wx::Weather
 
- attr_accessor :location
+ attr_accessor :day, :high, :low, :forecast
   
   def self.test
    self.greeting
- #  if self.invalid_city?
- #       puts "INVALID!!!!!!!!"
- #     else
- #       puts "valid dude!!!!!!"
-  #  end
-  # self.get_weather
+   self.scrape_api
+  #self.get_weather
   end
 
 
@@ -76,18 +72,41 @@ class Wx::Weather
     end
 
   def self.invalid_city?
-    #puts "Looking For Some Weather Info? Enter Your City Or Zip Code:"
-    #@location = nil
-    #@location = gets
     url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{@location}"
     document  = Nokogiri::XML(open(url))
     document.css("simpleforecast forecastday").empty?
-
   end
 
 
 
-  
+  def self.scrape_data
+    data = []
+
+    data << self.scrape_api
+
+    data
+  end
+
+  def self.scrape_api
+    url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{@location}"
+    document  = Nokogiri::XML(open(url))
+
+    document.css("simpleforecast forecastday").each_with_index do |forecastday|
+      print forecastday.css("date weekday").first.content
+    end
+  end
+
+  def self.scrape_meh
+    doc = Nokogiri::HTML(open("https://meh.com"))
+
+    deal = self.new
+    deal.name = doc.search("section.features h2").text.strip
+    deal.price = doc.search("button.buy-button").text.gsub("Buy it.", "").strip
+    deal.url = "https://meh.com"
+    deal.availability = true
+
+    deal
+  end
 
 
 

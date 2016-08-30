@@ -104,11 +104,17 @@ class Wx::Weather
 
   def self.select_day
     number = 1
+    
     puts "Enter The Number For The Day You Want Weather Info For. Type ALL For A Weekly Forecast."
+    
     @days.each do |day|
       puts "#{number}) " + day
       number = number + 1
     end
+
+    @input = nil
+    @input = gets
+    puts
   end
 
 

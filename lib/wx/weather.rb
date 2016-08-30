@@ -5,7 +5,7 @@ require 'cgi'
 
 class Wx::Weather
 
- attr_accessor :day, :high, :low, :forecast
+# attr_accessor :day, :high, :low, :forecast
   
   def self.test
    self.greeting
@@ -90,24 +90,26 @@ class Wx::Weather
   def self.scrape_api
     url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{@location}"
     document  = Nokogiri::XML(open(url))
+    
+    days = []
+    highs = []
+    lows = []
+    forecasts = []
 
     document.css("simpleforecast forecastday").each_with_index do |forecastday|
-      print forecastday.css("date weekday").first.content
+      days << forecastday.css("date weekday").first.content
+      highs << forecastday.css('high')
+      lows << forecastday.css('low')
+      forecasts << forecastday.css('fcttext')
     end
+
+    document.css('fcttext').each do |forecast|
+      forecasts << forecast
+    end
+
+
+    puts forecasts
   end
-
-  def self.scrape_meh
-    doc = Nokogiri::HTML(open("https://meh.com"))
-
-    deal = self.new
-    deal.name = doc.search("section.features h2").text.strip
-    deal.price = doc.search("button.buy-button").text.gsub("Buy it.", "").strip
-    deal.url = "https://meh.com"
-    deal.availability = true
-
-    deal
-  end
-
 
 
 

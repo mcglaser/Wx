@@ -4,10 +4,8 @@ require 'open-uri'
 require 'cgi'
 
 class Wx::Weather
-
-# attr_accessor :day, :high, :low, :forecast
   
-    def self.test
+    def self.process
      self.greeting
      self.scrape_api
      self.select_day
@@ -16,7 +14,7 @@ class Wx::Weather
 
 
     def self.greeting
-      puts "Looking For Some Weather Info? Enter Your City Or Zip Code:"
+      puts "For Weather Information, Enter Your City Or Zip Code:"
       self.set_location
     end
 
@@ -40,20 +38,22 @@ class Wx::Weather
       document  = Nokogiri::XML(open(url))
       
       forecast = document.css('fcttext')
+
+      puts "Here's Your Detailed Forecast For #{@location.capitalize}:"
       
       document.css("simpleforecast forecastday").each_with_index do |forecastday, i|
         highs = forecastday.css('high')
         lows  = forecastday.css('low')
         
-        print "\n"
-        print forecastday.css("date weekday").first.content
-        print "\n"
-        print " High: #{highs.css('fahrenheit').first.content} F / #{highs.css('celsius').first.content} C \n"
-        print " Low:  #{lows.css('fahrenheit').first.content} F / #{lows.css('celsius').first.content} C   \n"
-        print " #{forecast[i].content} \n" if forecast[i]
+        puts
+        puts forecastday.css("date weekday").first.content
+        puts
+        puts " High: #{highs.css('fahrenheit').first.content} F / #{highs.css('celsius').first.content} C \n"
+        puts " Low:  #{lows.css('fahrenheit').first.content} F / #{lows.css('celsius').first.content} C   \n"
+        puts " #{forecast[i].content} \n" if forecast[i]
       end
       
-      print "\n"
+      puts "\n"
     end
 
     def self.invalid_city?
@@ -130,6 +130,7 @@ class Wx::Weather
     puts "The low will be #{@lows[@input.to_i-1].css('fahrenheit').first.content} Fahrenheit / #{@lows[@input.to_i-1].css('celsius').first.content} Celsius"
     puts
   end
+
 
 
 end

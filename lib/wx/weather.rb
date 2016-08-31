@@ -1,7 +1,7 @@
 require "rubygems"
 require "nokogiri"
 require 'open-uri'
-require 'cgi'
+
 
 class Wx::Weather
   

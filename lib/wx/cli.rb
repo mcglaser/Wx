@@ -6,9 +6,22 @@ class Wx::CLI
 
 
   def call
-    Wx::Weather.process
+    Wx::Weather.greeting
+    set_location
     more_weather
   end
+
+  def set_location
+    input = nil
+    input = gets.strip
+      if Wx::Weather.invalid_city?(input)
+        puts "We Did Not Recognize The City You Entered. Please Enter Your City Or Zip Code Again:"
+        set_location
+      else
+        puts "WORKING!"
+        Wx::Weather.process
+      end
+    end
 
 
   def more_weather

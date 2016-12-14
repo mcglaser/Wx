@@ -24,7 +24,7 @@ class Wx::Weather
       
       forecast = document.css('fcttext')
 
-      puts "Here's Your Detailed Forecast For #{@location.capitalize}:"
+      puts "Here's Your Detailed Forecast:"
       
       document.css("simpleforecast forecastday").each_with_index do |forecastday, i|
         highs = forecastday.css('high')
@@ -40,6 +40,8 @@ class Wx::Weather
       
       puts "\n"
     end
+
+    
 
     def self.invalid_city?(location)
       url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{location}"
@@ -62,12 +64,12 @@ class Wx::Weather
         @days << forecastday.css("date weekday").first.content
         @highs << forecastday.css('high')
         @lows << forecastday.css('low')
+        #@forecasts << forecastday.css('conditions')
+      end
+      document.css("forecastday").each_with_index do |forecastday|
         @forecasts << forecastday.css('fcttext')
       end
 
-      document.css('fcttext').each do |forecast|
-        @forecasts << forecast
-      end
     end
 
     def self.display_days
@@ -98,7 +100,7 @@ class Wx::Weather
       if (1..6).cover?(input.to_i)
         self.single_day_weather
       else
-        self.weekly_weather
+        self.week_weather
       end
     end
 
@@ -109,6 +111,29 @@ class Wx::Weather
     puts
   end
 
+def self.week_weather
+      puts "Here's Your Detailed Forecast:"
+      puts
+      puts "#{@highs.css('fahrenheit').first.content}}"
+   #   @days.zip(@highs, @lows, @forecasts).each do |day, high, low, forecast|
+    #    puts "On #{day} there will be a high of #{@high} and a low of #{low}"
+    #    puts forecast
+    #  end
 
+      
+  #    document.css("simpleforecast forecastday").each_with_index do |forecastday, i|
+   #     highs = forecastday.css('high')
+  #      lows  = forecastday.css('low')
+  #      
+   #     puts
+   #     puts forecastday.css("date weekday").first.content
+   #     puts
+   #     puts " High: #{highs.css('fahrenheit').first.content} F / #{highs.css('celsius').first.content} C \n"
+   #     puts " Low:  #{lows.css('fahrenheit').first.content} F / #{lows.css('celsius').first.content} C   \n"
+   #     puts " #{forecast[i].content} \n" if forecast[i]
+   #   end
+      
+      puts "\n"
+    end
 
 end

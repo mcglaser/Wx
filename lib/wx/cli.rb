@@ -20,7 +20,6 @@ class Wx::CLI
         puts "We Did Not Recognize The City You Entered. Please Enter Your City Or Zip Code Again:"
         set_location
       else
-        puts "WORKING!"
         Wx::Weather.scrape_api(location)
       end
     end

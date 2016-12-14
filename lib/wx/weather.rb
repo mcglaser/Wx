@@ -17,32 +17,6 @@ class Wx::Weather
     end
 
 
-
-    def self.weekly_weather
-      url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{@location}"
-      document  = Nokogiri::XML(open(url))
-      
-      forecast = document.css('fcttext')
-
-      puts "Here's Your Detailed Forecast:"
-      
-      document.css("simpleforecast forecastday").each_with_index do |forecastday, i|
-        highs = forecastday.css('high')
-        lows  = forecastday.css('low')
-        
-        puts
-        puts forecastday.css("date weekday").first.content
-        puts
-        puts " High: #{highs.css('fahrenheit').first.content} F / #{highs.css('celsius').first.content} C \n"
-        puts " Low:  #{lows.css('fahrenheit').first.content} F / #{lows.css('celsius').first.content} C   \n"
-        puts " #{forecast[i].content} \n" if forecast[i]
-      end
-      
-      puts "\n"
-    end
-
-    
-
     def self.invalid_city?(location)
       url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{location}"
       document  = Nokogiri::XML(open(url))
@@ -58,16 +32,11 @@ class Wx::Weather
       @days = []
       @highs = []
       @lows = []
-      @forecasts = []
 
       document.css("simpleforecast forecastday").each_with_index do |forecastday|
         @days << forecastday.css("date weekday").first.content
-        @highs << forecastday.css('high')
-        @lows << forecastday.css('low')
-        #@forecasts << forecastday.css('conditions')
-      end
-      document.css("forecastday").each_with_index do |forecastday|
-        @forecasts << forecastday.css('fcttext')
+        @highs << forecastday.css('high fahrenheit').first.content
+        @lows << forecastday.css('low fahrenheit').first.content
       end
 
     end
@@ -75,7 +44,7 @@ class Wx::Weather
     def self.display_days
        number = 1
       
-       puts "Enter The Number For The Day You Want Weather Info For. Type ALL For A Detailed Weekly Forecast."
+       puts "Enter The Number For The Day You Want Weather Info For. Type ALL For The Weekly Forecast."
         
        @days.each do |day|
          puts "#{number}) " + day
@@ -106,33 +75,20 @@ class Wx::Weather
 
 
    def self.single_day_weather
-    puts "On #{@days[@input.to_i-1]} there will be a high of #{@highs[@input.to_i-1].css('fahrenheit').first.content} Fahrenheit / #{@highs[@input.to_i-1].css('celsius').first.content} Celsius"
-    puts "The low will be #{@lows[@input.to_i-1].css('fahrenheit').first.content} Fahrenheit / #{@lows[@input.to_i-1].css('celsius').first.content} Celsius"
+    puts "On #{@days[@input.to_i-1]} there will be a high of #{@highs[@input.to_i-1]} Fahrenheit / #{@highs[@input.to_i-1]} Celsius"
+    puts "The low will be #{@lows[@input.to_i-1]} Fahrenheit / #{@lows[@input.to_i-1]} Celsius"
     puts
-  end
+   end
 
-def self.week_weather
-      puts "Here's Your Detailed Forecast:"
+   def self.week_weather
+    puts "Here's The Weekly Forecast:"
+    puts
+    @days.zip(@highs, @lows).each do |day, high, low|
+      puts "#{day}:"
+      puts "High: #{high} / Low: #{low}"
       puts
-      puts "#{@highs.css('fahrenheit').first.content}}"
-   #   @days.zip(@highs, @lows, @forecasts).each do |day, high, low, forecast|
-    #    puts "On #{day} there will be a high of #{@high} and a low of #{low}"
-    #    puts forecast
-    #  end
-
-      
-  #    document.css("simpleforecast forecastday").each_with_index do |forecastday, i|
-   #     highs = forecastday.css('high')
-  #      lows  = forecastday.css('low')
-  #      
-   #     puts
-   #     puts forecastday.css("date weekday").first.content
-   #     puts
-   #     puts " High: #{highs.css('fahrenheit').first.content} F / #{highs.css('celsius').first.content} C \n"
-   #     puts " Low:  #{lows.css('fahrenheit').first.content} F / #{lows.css('celsius').first.content} C   \n"
-   #     puts " #{forecast[i].content} \n" if forecast[i]
-   #   end
-      
+    end
+        
       puts "\n"
     end
 

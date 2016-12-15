@@ -5,23 +5,9 @@ require 'open-uri'
 
 class Wx::Weather
   
+  attr_accessor :location, :input, :days, :highs, :lows
 
 
-    def self.process
-     self.show_weather
-    end
-
-
-    def self.greeting
-      puts "For Weather Information, Enter Your City Or Zip Code:"
-    end
-
-
-    def self.invalid_city?(location)
-      url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{location}"
-      document  = Nokogiri::XML(open(url))
-      document.css("simpleforecast forecastday").empty?
-    end
 
 
 
@@ -39,6 +25,13 @@ class Wx::Weather
         @lows << forecastday.css('low fahrenheit').first.content
       end
 
+    end
+
+
+    def self.invalid_city?(location)
+      url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{location}"
+      document  = Nokogiri::XML(open(url))
+      document.css("simpleforecast forecastday").empty?
     end
 
     def self.display_days

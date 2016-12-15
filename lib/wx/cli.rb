@@ -6,12 +6,17 @@ class Wx::CLI
 
 
   def call
-    Wx::Weather.greeting
+    greeting
     set_location
     Wx::Weather.display_days
     select_day
     more_weather
   end
+
+  def greeting
+    puts "For Weather Information, Enter Your City Or Zip Code:"
+  end
+
 
   def set_location
     location = nil

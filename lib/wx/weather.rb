@@ -5,8 +5,7 @@ require 'open-uri'
 
 class Wx::Weather
   
-  attr_accessor :location, :input, :days, :highs, :lows
-
+  attr_accessor :days, :highs, :lows
 
 
 

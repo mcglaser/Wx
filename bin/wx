@@ -4,27 +4,3 @@ require_relative "../lib/wx"
 
 Wx::CLI.new.call
 
-
-# dog = Dog.new('Snoopy', 'Beagle')
-# dog.name #=> 'Snoopy'
-# dog.name('Bob')
-# dog.breed #=> 'Beagle'
-
-
-# class Dog
-
-# 	def initialize(name, breed)
-# 		@name = name
-# 		@breed = breed
-# 	end
-
-# 	def name=(name)
-#   	  	@name = name
-# 	end
-
-# 	def name
-# 		@name
-# 	end
-
-
-# end

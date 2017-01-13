@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
+#shebang
 
+require "pry"
 require_relative "../lib/wx"
 
 Wx::CLI.new.call
-

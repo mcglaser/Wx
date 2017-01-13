@@ -8,22 +8,11 @@ class Wx::Weather
   attr_accessor :days, :highs, :lows
 
 
-
-
-    def self.scrape_api(location)
-      url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{location}"
-      document  = Nokogiri::XML(open(url))
-      
-      @days = []
-      @highs = []
-      @lows = []
-
-      document.css("simpleforecast forecastday").each_with_index do |forecastday|
-        @days << forecastday.css("date weekday").first.content
-        @highs << forecastday.css('high fahrenheit').first.content
-        @lows << forecastday.css('low fahrenheit').first.content
-      end
-
+    
+    def initialize(days, highs, lows)
+      @@days = days
+      @@highs = highs
+      @@lows = lows
     end
 
 
@@ -33,12 +22,11 @@ class Wx::Weather
       document.css("simpleforecast forecastday").empty?
     end
 
-    def self.display_days
+    def self.display_days 
        number = 1
       
        puts "Enter The Number For The Day You Want Weather Info For. Type ALL For The Weekly Forecast."
-        
-       @days.each do |day|
+       @@days.each do |day|
          puts "#{number}) " + day
          number = number + 1
        end
@@ -67,15 +55,15 @@ class Wx::Weather
 
 
    def self.single_day_weather
-    puts "On #{@days[@input.to_i-1]} there will be a high of #{@highs[@input.to_i-1]} Fahrenheit / #{@highs[@input.to_i-1]} Celsius"
-    puts "The low will be #{@lows[@input.to_i-1]} Fahrenheit / #{@lows[@input.to_i-1]} Celsius"
+    puts "On #{@@days[@input.to_i-1]} there will be a high of #{@@highs[@input.to_i-1]} Fahrenheit"
+    puts "The low will be #{@@lows[@input.to_i-1]} Fahrenheit"
     puts
    end
 
    def self.week_weather
     puts "Here's The Weekly Forecast:"
     puts
-    @days.zip(@highs, @lows).each do |day, high, low|
+    @@days.zip(@@highs, @@lows).each do |day, high, low|
       puts "#{day}:"
       puts "High: #{high} / Low: #{low}"
       puts

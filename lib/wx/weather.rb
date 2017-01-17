@@ -13,6 +13,8 @@ class Wx::Weather
       @@days = days
       @@highs = highs
       @@lows = lows
+
+      Wx::Weather.display_days
     end
 
 

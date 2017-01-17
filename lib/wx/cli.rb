@@ -8,7 +8,6 @@ class Wx::CLI
   def call
     greeting
     set_location
-    Wx::Weather.display_days
     select_day
     more_weather
   end

@@ -5,7 +5,7 @@ require 'open-uri'
 
 class Wx::Scraper
 
-  attr_accessor :days, :highs, :lows
+
 
 	def self.scrape_api(location)
      url       = "http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query=#{location}"
